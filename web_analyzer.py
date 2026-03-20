@@ -65,7 +65,7 @@ def display(counts):
     labels = ["Headings", "Links", "Paragraphs"]
 
     plt.bar(labels, counts)
-    plt.title('Put your Group 31 Here')
+    plt.title('Group 31')
     plt.ylabel('Count')
     plt.savefig('web_analysis_results.png') # Save the figure as an image file
     plt.show()
