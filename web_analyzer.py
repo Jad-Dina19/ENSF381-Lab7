@@ -1,6 +1,8 @@
 import re 
 import requests 
 from bs4 import BeautifulSoup 
+import matplotlib.pyplot as plt 
+
 url = "https://en.wikipedia.org/wiki/University_of_Calgary"
 headers = { 
     "User-Agent": "lab07-web-analyzer" 
@@ -45,3 +47,35 @@ top_words = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:5]
 for word, freq in top_words:
     print(f"{word}: {freq}")
 
+def word_search():
+    word = input("\nEnter a word to search for: ")
+    if not word:
+        print("No word entered. Please try again.")
+        return None
+    return word_freq.get(word.lower().strip(), 0)
+
+def longest_paragraph():
+    regex_find = re.compile(r'\b\w+\b')
+    find_longest = soup.find_all('p')
+    longest = max(find_longest, key=lambda p: len(p.get_text()))
+    return longest.get_text().strip(), len(regex_find.findall(longest.get_text()))
+
+# search_word = word_search()
+# print (search_word)
+print(longest_paragraph())
+
+longest, regex = longest_paragraph()
+print(f"\nLongest paragraph: {longest, regex}")
+print(f"\nNumber of words in the longest paragraph: {len(longest.split()), regex}")
+
+headings_count = len(soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']))
+links_count = len(soup.find_all('a'))
+paragraphs_count = len(soup.find_all('p'))
+
+labels = ['Headings', 'Links', 'Paragraphs'] 
+values = [headings_count, links_count, paragraphs_count] 
+plt.bar(labels, values) 
+plt.title('Put your Group# Here') 
+plt.ylabel('Count') 
+# plt.savefig('web_analysis_results.png')  # Save the figure as an image file 
+plt.show() 
